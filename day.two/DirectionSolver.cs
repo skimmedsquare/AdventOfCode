@@ -1,61 +1,82 @@
-namespace Aoc2021.DayTwo {
-    class DirectionSolver {
-        public static int SolvePartOne() {
+namespace Aoc2021.DayTwo
+{
+    class DirectionSolver : ISolver
+    {
+        public void SolvePartOne()
+        {
             var depth = 0;
             var pos = 0;
 
             List<Instruction> instructions = GetInstructions();
 
-            foreach (Instruction instr in instructions) {
-                if ("forward" == instr.Direction) {
+            foreach (Instruction instr in instructions)
+            {
+                if ("forward" == instr.Direction)
+                {
                     pos += instr.Value;
-                } else {
-                    if ("down" == instr.Direction) {
+                }
+                else
+                {
+                    if ("down" == instr.Direction)
+                    {
                         depth += instr.Value;
-                    } else /* "up" */ {
+                    }
+                    else /* "up" */
+                    {
                         depth -= instr.Value;
                     }
                 }
             }
 
-            return depth * pos;
+            Console.WriteLine($"Solution: {depth * pos}");
         }
 
-        public static int SolvePartTwo() {
+        public void SolvePartTwo()
+        {
             var depth = 0;
             var pos = 0;
             var aim = 0;
 
             List<Instruction> instructions = GetInstructions();
 
-            foreach (Instruction instr in instructions) {
-                if ("forward" == instr.Direction) {
+            foreach (Instruction instr in instructions)
+            {
+                if ("forward" == instr.Direction)
+                {
                     pos += instr.Value;
                     depth += aim * instr.Value;
-                } else {
-                    if ("down" == instr.Direction) {
+                }
+                else
+                {
+                    if ("down" == instr.Direction)
+                    {
                         aim += instr.Value;
-                    } else /* "up" */ {
+                    }
+                    else /* "up" */
+                    {
                         aim -= instr.Value;
                     }
                 }
             }
 
-            return depth * pos;
+            Console.WriteLine($"Solution: {depth * pos}");
         }
 
-        static List<Instruction> GetInstructions() {
+        static List<Instruction> GetInstructions()
+        {
             return ReadFile().Select(line => line.Split(' '))
                              .Select(arr => new Instruction(arr[0], int.Parse(arr[1])))
                              .ToList();
         }
 
-        static List<String> ReadFile() {
+        static List<String> ReadFile()
+        {
             return System.IO.File.ReadLines("day.two/directions.txt").ToList();
         }
 
-        static List<String> ReadStatic() {
-            string[] hc = { 
+        static List<String> ReadStatic()
+        {
+            string[] hc = {
                 "forward 5",
                 "down 5",
                 "forward 8",

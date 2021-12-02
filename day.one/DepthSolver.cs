@@ -26,7 +26,7 @@ namespace Aoc2021 {
             }
 
             static List<int> ReadInput() {
-                return System.IO.File.ReadLines("day.one/part-one.txt")
+                return System.IO.File.ReadLines("day.one/depths.txt")
                     .Select(line => int.Parse(line))
                     .ToList();
             }

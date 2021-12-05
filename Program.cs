@@ -1,6 +1,7 @@
 ﻿using Aoc2021.DayOne;
 using Aoc2021.DayTwo;
 using Aoc2021.DayThree;
+using Aoc2021.DayFour;
 
 namespace Aoc2021
 {
@@ -9,7 +10,8 @@ namespace Aoc2021
         static readonly Dictionary<int, ISolver> Solvers = new Dictionary<int, ISolver>() {
             { 1, new DepthSolver() },
             { 2, new DirectionSolver() },
-            { 3, new BinarySolver() }
+            { 3, new BinarySolver() },
+            { 4, new BingoSolver() }
         };
 
         static int Main(string[] args)

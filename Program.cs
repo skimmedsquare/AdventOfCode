@@ -4,6 +4,7 @@ using Aoc2021.DayThree;
 using Aoc2021.DayFour;
 using Aoc2021.DayFive;
 using Aoc2021.DaySix;
+using Aoc2021.DaySeven;
 
 namespace Aoc2021
 {
@@ -15,7 +16,8 @@ namespace Aoc2021
             { 3, new BinarySolver() },
             { 4, new BingoSolver() },
             { 5, new VentSolver() },
-            { 6, new FishSolver() }
+            { 6, new FishSolver() },
+            { 7, new CrabSolver() }
         };
 
         static int Main(string[] args)

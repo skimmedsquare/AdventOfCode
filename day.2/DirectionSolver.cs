@@ -19,7 +19,7 @@ namespace Aoc2021.Day2
                     {
                         depth += instr.Value;
                     }
-                    else /* "up" */
+                    else
                     {
                         depth -= instr.Value;
                     }
@@ -48,7 +48,7 @@ namespace Aoc2021.Day2
                     {
                         aim += instr.Value;
                     }
-                    else /* "up" */
+                    else
                     {
                         aim -= instr.Value;
                     }

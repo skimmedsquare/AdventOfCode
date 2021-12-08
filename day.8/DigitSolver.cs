@@ -1,9 +1,11 @@
 using System.Text;
 
-namespace Aoc2021.Day8 {
+namespace Aoc2021.Day8
+{
     public class DigitSolver : ISolver
     {
-        private static readonly Dictionary<string, int> signalToDigitMapping = new() {
+        private static readonly Dictionary<string, int> SignalToDigitMapping = new()
+        {
             { "abcefg", 0 },
             { "cf", 1 },
             { "acdeg", 2 },
@@ -18,7 +20,7 @@ namespace Aoc2021.Day8 {
 
         public void SolvePartOne(in List<string> data)
         {
-            var validLengths = new HashSet<int>() {2, 3, 4, 7};
+            var validLengths = new HashSet<int>() { 2, 3, 4, 7 };
 
             List<Display> displays = Parse(data);
             int validNums = displays.Select(d => d.Values)
@@ -28,9 +30,11 @@ namespace Aoc2021.Day8 {
             Console.WriteLine(validNums);
         }
 
-        private static List<Display> Parse(in List<string> data) {
+        private static List<Display> Parse(in List<string> data)
+        {
             var output = new List<Display>();
-            foreach (string line in data) {
+            foreach (string line in data)
+            {
                 string[] parts = line.Split('|');
                 List<string> signals = parts[0].Split(' ')
                     .Select(s => s.Trim())
@@ -43,37 +47,45 @@ namespace Aoc2021.Day8 {
                     .ToList();
                 output.Add(new Display(signals, new OutputValue(digits)));
             }
+
             return output;
         }
 
         public void SolvePartTwo(in List<string> data)
         {
-            var displays = Parse(data);
+            List<Display> displays = Parse(data);
             var sum = 0;
-            foreach (var display in displays) {
-                var mapping = FindMapping(display);
-                var value = DecodeOutput(mapping, display.Values);
+            foreach (Display display in displays)
+            {
+                Dictionary<char, char> mapping = FindMapping(display);
+                int value = DecodeOutput(mapping, display.Values);
                 Console.WriteLine(value);
                 sum += value;
             }
+
             Console.WriteLine(sum);
         }
 
         private static int DecodeOutput(in Dictionary<char, char> mapping, OutputValue value)
         {
             var builder = new StringBuilder();
-            foreach (var digit in value.Digits) {
+            foreach (string digit in value.Digits)
+            {
                 builder.Append(DecodeOutput(mapping, digit));
             }
+
             return int.Parse(builder.ToString());
         }
 
-        private static int DecodeOutput(in Dictionary<char, char> mapping, string value) {
+        private static int DecodeOutput(in Dictionary<char, char> mapping, string value)
+        {
             var builder = new StringBuilder();
-            foreach (var c in value) {
+            foreach (char c in value)
+            {
                 builder.Append(mapping[c]);
             }
-            return signalToDigitMapping[builder.ToString().Sort()];
+
+            return SignalToDigitMapping[builder.ToString().Sort()];
         }
 
         private static Dictionary<char, char> FindMapping(Display display)
@@ -84,12 +96,12 @@ namespace Aoc2021.Day8 {
             ////////////////////////
             // Extract top value (a)
             var oneDisplay = (from signal in display.Signals
-                             where signal.Length == 2
-                             select signal).First();
+                              where signal.Length == 2
+                              select signal).First();
 
             var sevenDisplay = (from signal in display.Signals
-                               where signal.Length == 3
-                               select signal).First();
+                                where signal.Length == 3
+                                select signal).First();
 
             WriteToDictionary(sevenDisplay.Signals(), oneDisplay.Signals(), 'a', ref codeToActual, ref actualToCode);
 
@@ -137,7 +149,8 @@ namespace Aoc2021.Day8 {
 
             /////////////////////////////////
             // Extract bottom-right value (f)
-            mask = new HashSet<char>() {
+            mask = new HashSet<char>()
+            {
                 actualToCode['a'],
                 actualToCode['g'],
                 actualToCode['d'],
@@ -153,41 +166,36 @@ namespace Aoc2021.Day8 {
 
             //////////////////////////////
             // Extract top-right value (c)
-            WriteToDictionary(oneDisplay.Signals(), new HashSet<char>() {actualToCode['f']}, 'c', ref codeToActual, ref actualToCode);
+            WriteToDictionary(oneDisplay.Signals(), new HashSet<char>() { actualToCode['f'] }, 'c', ref codeToActual, ref actualToCode);
 
             return codeToActual;
         }
 
-        private static void DisplayDictionary(in Dictionary<char, char> dictionary) {
-            Console.WriteLine("Signal -> Key Position");
-            foreach (var e in dictionary) {
-                Console.WriteLine($"{e.Key}      -> {e.Value}");
-            }
-            Console.WriteLine();
-        }
-
-        private static void WriteToDictionary(in HashSet<char> source,
-                                              in HashSet<char> mask,
-                                              char actualCharacter,
-                                              ref Dictionary<char, char> codeToActual,
-                                              ref Dictionary<char, char> actualToCode)
+        private static void WriteToDictionary(
+            in HashSet<char> source,
+            in HashSet<char> mask,
+            char actualCharacter,
+            ref Dictionary<char, char> codeToActual,
+            ref Dictionary<char, char> actualToCode)
         {
-            var encodedValue = source.Except(mask).First();
+            char encodedValue = source.Except(mask).First();
             codeToActual.Add(encodedValue, actualCharacter);
             actualToCode.Add(actualCharacter, encodedValue);
 
-            //DisplayDictionary(codeToActual);
+            // DisplayDictionary(codeToActual);
         }
 
-        record Display(List<string> Signals, OutputValue Values);
-        record OutputValue(List<string> Digits);
+        private record Display(List<string> Signals, OutputValue Values);
+        private record OutputValue(List<string> Digits);
     }
+
     public static class ExtensionMethods
     {
         public static HashSet<char> Signals(this string aString)
         {
             return aString.Distinct().ToHashSet();
         }
+
         public static string Sort(this string input)
         {
             char[] characters = input.ToArray();

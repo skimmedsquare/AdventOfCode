@@ -1,4 +1,5 @@
-namespace Aoc2021.Day1 {
+namespace Aoc2021.Day1
+{
     public class DepthSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
@@ -45,6 +46,7 @@ namespace Aoc2021.Day1 {
                 {
                     continue;
                 }
+
                 if (vals[i] > vals[i - 1])
                 {
                     count++;

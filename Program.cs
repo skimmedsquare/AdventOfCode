@@ -40,15 +40,23 @@ namespace Aoc2021
                 return -1;
             }
 
+            var watch = new System.Diagnostics.Stopwatch();
             if (part == 1) {
+                watch.Start();
                 solver.SolvePartOne();
+                watch.Stop();
             } else if (part == 2) {
+                watch.Start();
                 solver.SolvePartTwo();
+                watch.Stop();
             } else {
                 Console.WriteLine("Invalid part provided!");
                 return -1;
             }
-
+            Console.WriteLine();
+            Console.WriteLine("===============================================");
+            Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
+            Console.WriteLine("===============================================");
             return 0;
         }
     }

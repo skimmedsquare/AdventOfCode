@@ -1,68 +1,84 @@
-﻿using Aoc2021.Day1;
-using Aoc2021.Day2;
-using Aoc2021.Day3;
-using Aoc2021.Day4;
-using Aoc2021.Day5;
-using Aoc2021.Day6;
-using Aoc2021.Day7;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
 
 namespace Aoc2021
 {
     class Program
     {
-        static readonly Dictionary<int, ISolver> Solvers = new Dictionary<int, ISolver>() {
-            { 1, new DepthSolver() },
-            { 2, new DirectionSolver() },
-            { 3, new BinarySolver() },
-            { 4, new BingoSolver() },
-            { 5, new VentSolver() },
-            { 6, new FishSolver() },
-            { 7, new CrabSolver() }
-        };
-
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
-            if (args.Count() != 1) {
-                return -1;
-            }
+            var rootCommand = new RootCommand
+            {
+                new Argument<string>(
+                    "selection",
+                    getDefaultValue: () => "1.1"),
+                new Option<bool>(
+                    "--use-real-input",
+                    getDefaultValue: () => false)
+            };
 
-            var choice = args[0];
-            var splitChoice = choice.Split('.');
+            rootCommand.Description = "Advent of Code Runner";
+            rootCommand.Handler = CommandHandler.Create<string, bool>(execute);
+            rootCommand.Invoke(args);
+        }
+
+        static void GetSolvers(out Dictionary<int, ISolver> solvers) {
+            solvers = new Dictionary<int, ISolver>();
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).Where(x => typeof(ISolver).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            foreach (var type in types) {
+                var ctor = type.GetConstructor(System.Type.EmptyTypes);
+                var lastChar = type.Namespace![type.Namespace.Count()-1];
+                var day = int.Parse(lastChar.ToString());
+                solvers[day] = (ISolver)ctor!.Invoke(null);
+            }
+        }
+
+        static List<string> ReadFile(int day, bool useRealInput) {
+            var path = $"day.{day}/{(useRealInput ? "input" : "example")}.txt";
+            Console.WriteLine($"Using file at: {path}");
+            return File.ReadLines(path).ToList();
+        }
+
+        static void execute(string selection, bool useRealInput) {
+            var splitChoice = selection.Split('.');
             
             var day = int.Parse(splitChoice[0]);
             var part = int.Parse(splitChoice[1]);
 
             Console.WriteLine($"Executing Day {day}, Part {part}");
 
+            var solvers = new Dictionary<int, ISolver>();
+            GetSolvers(out solvers);
+
             ISolver? solver;
-            if (!Solvers.TryGetValue(day, out solver)) {
+            if (!solvers.TryGetValue(day, out solver) || !(part == 1 || part == 2)) {
                 Console.WriteLine("Invalid day provided!");
-                return -1;
+                return;
             }
 
             var watch = new System.Diagnostics.Stopwatch();
-            if (part == 1) {
-                watch.Start();
-                solver.SolvePartOne();
-                watch.Stop();
-            } else if (part == 2) {
-                watch.Start();
-                solver.SolvePartTwo();
-                watch.Stop();
-            } else {
-                Console.WriteLine("Invalid part provided!");
-                return -1;
-            }
+            var lines = ReadFile(day, useRealInput);
+            Solve method = part switch {
+                1 => solver.SolvePartOne,
+                2 => solver.SolvePartTwo,
+                _ => throw new InvalidOperationException()
+            };
+
+            watch.Start();
+            method.Invoke(lines);
+            watch.Stop();
+
             Console.WriteLine();
             Console.WriteLine("===============================================");
             Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
             Console.WriteLine("===============================================");
-            return 0;
         }
     }
 
+    public delegate void Solve(in List<string> data);
+
     interface ISolver {
-        void SolvePartOne();
-        void SolvePartTwo();
+        void SolvePartOne(in List<string> data);
+        void SolvePartTwo(in List<string> data);
     }
 }

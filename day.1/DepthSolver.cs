@@ -1,16 +1,15 @@
 namespace Aoc2021.Day1 {
     class DepthSolver : ISolver
     {
-
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
-            List<int> depths = ReadInput();
+            List<int> depths = Parse(data);
             Console.WriteLine($"Solution: {NumIncreasing(depths)}");
         }
 
-        public void SolvePartTwo()
-        {
-            List<int> depths = ReadInput();
+        public void SolvePartTwo(in List<string> data)
+        { 
+            List<int> depths = Parse(data);
 
             List<int> windows = new List<int>(depths.Count - 3);
             var currWindow = 0;
@@ -32,11 +31,9 @@ namespace Aoc2021.Day1 {
             Console.WriteLine($"Solution: {NumIncreasing(windows)}");
         }
 
-        static List<int> ReadInput()
+        static List<int> Parse(in List<string> data) 
         {
-            return System.IO.File.ReadLines("day.one/depths.txt")
-                .Select(line => int.Parse(line))
-                .ToList();
+            return (from line in data select int.Parse(line)).ToList();
         }
 
         static int NumIncreasing(in List<int> vals)

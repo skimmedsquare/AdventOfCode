@@ -18,9 +18,8 @@ namespace Aoc2021.Day3 {
             "01010"
         };
 
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
-            List<string> data = ReadFile();
             List<uint> nums = data.Select(bin_string => Convert.ToUInt32(bin_string, 2))
                 .ToList();
 
@@ -69,9 +68,8 @@ namespace Aoc2021.Day3 {
             return System.IO.File.ReadLines("day.three/data.txt").ToList();
         }
 
-        public void SolvePartTwo()
+        public void SolvePartTwo(in List<string> data)
         {
-            List<string> data = ReadFile();
             List<uint> nums = data.Select(bin_string => Convert.ToUInt32(bin_string, 2))
                 .ToList();
 

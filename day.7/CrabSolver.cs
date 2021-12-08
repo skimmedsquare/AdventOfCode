@@ -1,9 +1,9 @@
 namespace Aoc2021.Day7 {
     class CrabSolver : ISolver
     {
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
-            var crabs = ReadFile();
+            var crabs = Parse(data);
             crabs.Sort();
             Console.WriteLine((from crab in crabs select crab).Sum() / crabs.Count());
             var median = CalculateMedian(crabs);
@@ -14,8 +14,8 @@ namespace Aoc2021.Day7 {
             Console.WriteLine(sumOfDistances);
         }
 
-        List<int> ReadFile() {
-            return File.ReadAllLines("day.seven/input.txt")[0].Split(',').Select(n => int.Parse(n)).ToList();
+        List<int> Parse(in List<string> data) {
+            return data[0].Split(',').Select(n => int.Parse(n)).ToList();
         }
 
         int CalculateMedian(in List<int> values) {
@@ -28,9 +28,9 @@ namespace Aoc2021.Day7 {
             }
         }
 
-        public void SolvePartTwo()
+        public void SolvePartTwo(in List<string> data)
         {
-            var crabs = ReadFile();
+            var crabs = Parse(data);
 
             // memoize
             var max = crabs.Max();

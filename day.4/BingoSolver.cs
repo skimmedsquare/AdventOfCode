@@ -3,21 +3,21 @@ using System.Text;
 namespace Aoc2021.Day4 {
     class BingoSolver : ISolver
     {
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
             var numbers = new List<int>();
             var cards = new List<BingoCard>();
-            ReadFile("day.four/input.txt", out numbers, out cards);
+            ReadFile(data, out numbers, out cards);
             var winningNumber = 0;
             BingoCard winner = FindWinner(numbers, cards, out winningNumber);
             Console.WriteLine($"Solution: {UnmarkedSum(winner) * winningNumber}");
         }
 
-        public void SolvePartTwo()
+        public void SolvePartTwo(in List<string> data)
         {
             var numbers = new List<int>();
             var cards = new List<BingoCard>();
-            ReadFile("day.four/example.txt", out numbers, out cards);
+            ReadFile(data, out numbers, out cards);
             var winningNumber = 0;
             BingoCard loser = FindLoser(numbers, cards, out winningNumber);
             Console.WriteLine($"Solution: {UnmarkedSum(loser) * winningNumber}");
@@ -88,8 +88,8 @@ namespace Aoc2021.Day4 {
             return new BingoCard();
         }
 
-        void ReadFile(string fileName, out List<int> numbers, out List<BingoCard> cards) {
-            var lines = File.ReadLines(fileName).ToArray();
+        void ReadFile(in List<string> data, out List<int> numbers, out List<BingoCard> cards) {
+            var lines = data.ToArray();
             numbers = lines[0].Split(',').Select(v => int.Parse(v)).ToList();
 
             var readCards = new List<BingoCard>();

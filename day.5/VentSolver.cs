@@ -1,9 +1,9 @@
 namespace Aoc2021.Day5 {
     class VentSolver : ISolver
     {
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
-            var straightLines = ReadFile().Where(l => l.IsStraight()).ToList();
+            var straightLines = Parse(data).Where(l => l.IsStraight()).ToList();
             var x = 0;
             var y = 0;
 
@@ -42,10 +42,9 @@ namespace Aoc2021.Day5 {
                 select Math.Max(line.Start.Y, line.End.Y)).Max();
         }
 
-        List<Line> ReadFile() {
-            var lines = File.ReadLines("day.five/input.txt");
+        List<Line> Parse(in List<string> data) {
             var result = new List<Line>();
-            foreach (var line in lines) {
+            foreach (var line in data) {
                 var splitLine = line.Split("->");
                 result.Add(new Line() { Start = readPoint(splitLine[0]), End = readPoint(splitLine[1]) });
             }
@@ -66,9 +65,9 @@ namespace Aoc2021.Day5 {
                 Console.WriteLine();
             }
         }
-        public void SolvePartTwo()
+        public void SolvePartTwo(in List<string> data)
         {
-            var inputLines = ReadFile().ToList();
+            var inputLines = Parse(data).ToList();
             var x = 0;
             var y = 0;
 

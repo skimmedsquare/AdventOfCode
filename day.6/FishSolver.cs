@@ -1,10 +1,10 @@
 namespace Aoc2021.Day6 {
     class FishSolver : ISolver
     {
-        public void SolvePartOne()
+        public void SolvePartOne(in List<string> data)
         {
             var days = 80;
-            var fishes = ReadFile();
+            var fishes = Parse(data);
             for (var i = 0; i < days; i++) {
                 var numToAdd = 0;
                 for (int j = 0; j < fishes.Count(); j++) {
@@ -24,15 +24,15 @@ namespace Aoc2021.Day6 {
             Console.WriteLine(fishes.Count());
         }
 
-        List<int> ReadFile() {
-            return (from num in File.ReadAllLines("day.six/input.txt")[0].Split(',')
+        List<int> Parse(in List<string> data) {
+            return (from num in data[0].Split(',')
                    select int.Parse(num)).ToList();
         }
 
-        public void SolvePartTwo()
+        public void SolvePartTwo(in List<string> data)
         {
             var days = 256;
-            var fishes = ReadFile();
+            var fishes = Parse(data);
 
             var fishLog = new Dictionary<int, long>() {
                 {0, 0},

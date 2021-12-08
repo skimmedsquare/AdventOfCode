@@ -1,4 +1,4 @@
-namespace Aoc2021.DayFive {
+namespace Aoc2021.Day5 {
     class VentSolver : ISolver
     {
         public void SolvePartOne()

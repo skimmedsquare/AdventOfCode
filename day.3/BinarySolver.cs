@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Aoc2021.DayThree {
+namespace Aoc2021.Day3 {
     class BinarySolver : ISolver
     {
         static string[] TEST = {

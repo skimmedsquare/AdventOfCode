@@ -1,4 +1,4 @@
-namespace Aoc2021.DayOne {
+namespace Aoc2021.Day1 {
     class DepthSolver : ISolver
     {
 

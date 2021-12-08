@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Aoc2021.DayFour {
+namespace Aoc2021.Day4 {
     class BingoSolver : ISolver
     {
         public void SolvePartOne()

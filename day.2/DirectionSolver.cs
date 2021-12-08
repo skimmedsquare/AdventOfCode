@@ -1,4 +1,4 @@
-namespace Aoc2021.DayTwo
+namespace Aoc2021.Day2
 {
     class DirectionSolver : ISolver
     {

@@ -1,4 +1,4 @@
-namespace Aoc2021.DaySeven {
+namespace Aoc2021.Day7 {
     class CrabSolver : ISolver
     {
         public void SolvePartOne()

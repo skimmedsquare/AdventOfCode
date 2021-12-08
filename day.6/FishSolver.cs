@@ -1,4 +1,4 @@
-namespace Aoc2021.DaySix {
+namespace Aoc2021.Day6 {
     class FishSolver : ISolver
     {
         public void SolvePartOne()

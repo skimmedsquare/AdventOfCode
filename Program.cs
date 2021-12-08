@@ -1,10 +1,10 @@
-﻿using Aoc2021.DayOne;
-using Aoc2021.DayTwo;
-using Aoc2021.DayThree;
-using Aoc2021.DayFour;
-using Aoc2021.DayFive;
-using Aoc2021.DaySix;
-using Aoc2021.DaySeven;
+﻿using Aoc2021.Day1;
+using Aoc2021.Day2;
+using Aoc2021.Day3;
+using Aoc2021.Day4;
+using Aoc2021.Day5;
+using Aoc2021.Day6;
+using Aoc2021.Day7;
 
 namespace Aoc2021
 {

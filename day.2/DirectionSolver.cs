@@ -1,23 +1,21 @@
 namespace Aoc2021.Day2
 {
-    class DirectionSolver : ISolver
+    public class DirectionSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
         {
             var depth = 0;
             var pos = 0;
 
-            List<Instruction> instructions = Parse(data);
-
-            foreach (Instruction instr in instructions)
+            foreach (Instruction instr in Parse(data))
             {
-                if ("forward" == instr.Direction)
+                if (instr.Direction == "forward")
                 {
                     pos += instr.Value;
                 }
                 else
                 {
-                    if ("down" == instr.Direction)
+                    if (instr.Direction == "up")
                     {
                         depth += instr.Value;
                     }
@@ -37,18 +35,16 @@ namespace Aoc2021.Day2
             var pos = 0;
             var aim = 0;
 
-            List<Instruction> instructions = Parse(data);
-
-            foreach (Instruction instr in instructions)
+            foreach (Instruction instr in Parse(data))
             {
-                if ("forward" == instr.Direction)
+                if (instr.Direction == "forward")
                 {
                     pos += instr.Value;
                     depth += aim * instr.Value;
                 }
                 else
                 {
-                    if ("down" == instr.Direction)
+                    if (instr.Direction == "down")
                     {
                         aim += instr.Value;
                     }
@@ -62,32 +58,13 @@ namespace Aoc2021.Day2
             Console.WriteLine($"Solution: {depth * pos}");
         }
 
-        static List<Instruction> Parse(List<string> data)
+        private static List<Instruction> Parse(List<string> data)
         {
             return data.Select(line => line.Split(' '))
                 .Select(arr => new Instruction(arr[0], int.Parse(arr[1])))
                 .ToList();
         }
-
-        static List<String> ReadFile()
-        {
-            return System.IO.File.ReadLines("day.two/directions.txt").ToList();
-        }
-
-        static List<String> ReadStatic()
-        {
-            string[] hc = {
-                "forward 5",
-                "down 5",
-                "forward 8",
-                "up 3",
-                "down 8",
-                "forward 2"
-            };
-            return hc.ToList();
-        }
     }
 
-
-    record Instruction(string Direction, int Value);
+    internal record Instruction(string Direction, int Value);
 }

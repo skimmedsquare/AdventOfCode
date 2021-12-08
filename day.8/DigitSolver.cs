@@ -1,9 +1,9 @@
 using System.Text;
 
 namespace Aoc2021.Day8 {
-    class DigitSolver : ISolver
+    public class DigitSolver : ISolver
     {
-        static readonly Dictionary<string, int> signalToDigitMapping = new() {
+        private static readonly Dictionary<string, int> signalToDigitMapping = new() {
             { "abcefg", 0 },
             { "cf", 1 },
             { "acdeg", 2 },
@@ -20,25 +20,24 @@ namespace Aoc2021.Day8 {
         {
             var validLengths = new HashSet<int>() {2, 3, 4, 7};
 
-            var displays = Parse(data);
-            var validNums = displays.Select(d => d.Values)
-                .Select(v => v.Digits.Where(digit => validLengths.Contains(digit.Count())).Count())
+            List<Display> displays = Parse(data);
+            int validNums = displays.Select(d => d.Values)
+                .Select(v => v.Digits.Count(digit => validLengths.Contains(digit.Length)))
                 .Sum();
 
             Console.WriteLine(validNums);
-            
         }
 
-        List<Display> Parse(in List<string> data) {
+        private static List<Display> Parse(in List<string> data) {
             var output = new List<Display>();
-            foreach (var line in data) {
-                var parts = line.Split('|');
-                var signals = parts[0].Split(' ')
+            foreach (string line in data) {
+                string[] parts = line.Split('|');
+                List<string> signals = parts[0].Split(' ')
                     .Select(s => s.Trim())
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToList();
-                
-                var digits = parts[1].Split(' ')
+
+                List<string> digits = parts[1].Split(' ')
                     .Select(s => s.Trim())
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToList();
@@ -60,7 +59,7 @@ namespace Aoc2021.Day8 {
             Console.WriteLine(sum);
         }
 
-        int DecodeOutput(in Dictionary<char, char> mapping, OutputValue value)
+        private static int DecodeOutput(in Dictionary<char, char> mapping, OutputValue value)
         {
             var builder = new StringBuilder();
             foreach (var digit in value.Digits) {
@@ -69,7 +68,7 @@ namespace Aoc2021.Day8 {
             return int.Parse(builder.ToString());
         }
 
-        int DecodeOutput(in Dictionary<char, char> mapping, string value) {
+        private static int DecodeOutput(in Dictionary<char, char> mapping, string value) {
             var builder = new StringBuilder();
             foreach (var c in value) {
                 builder.Append(mapping[c]);
@@ -77,7 +76,7 @@ namespace Aoc2021.Day8 {
             return signalToDigitMapping[builder.ToString().Sort()];
         }
 
-        Dictionary<char, char> FindMapping(Display display)
+        private static Dictionary<char, char> FindMapping(Display display)
         {
             var codeToActual = new Dictionary<char, char>();
             var actualToCode = new Dictionary<char, char>();
@@ -85,11 +84,11 @@ namespace Aoc2021.Day8 {
             ////////////////////////
             // Extract top value (a)
             var oneDisplay = (from signal in display.Signals
-                             where signal.Count() == 2
+                             where signal.Length == 2
                              select signal).First();
-            
+
             var sevenDisplay = (from signal in display.Signals
-                               where signal.Count() == 3
+                               where signal.Length == 3
                                select signal).First();
 
             WriteToDictionary(sevenDisplay.Signals(), oneDisplay.Signals(), 'a', ref codeToActual, ref actualToCode);
@@ -97,14 +96,14 @@ namespace Aoc2021.Day8 {
             ///////////////////////////
             // Extract bottom value (g)
             var fourDisplay = (from signal in display.Signals
-                               where signal.Count() == 4
+                               where signal.Length == 4
                                select signal).First();
 
             var mask = fourDisplay.Signals();
             mask.Add(actualToCode['a']);
 
             var nineDisplay = (from signal in display.Signals
-                               where signal.Count() == 6 && signal.Signals().IsProperSupersetOf(mask)
+                               where signal.Length == 6 && signal.Signals().IsProperSupersetOf(mask)
                                select signal).First();
 
             WriteToDictionary(nineDisplay.Signals(), mask, 'g', ref codeToActual, ref actualToCode);
@@ -116,7 +115,7 @@ namespace Aoc2021.Day8 {
             mask.Add(actualToCode['g']);
 
             var threeDisplay = (from signal in display.Signals
-                                where signal.Count() == 5 && signal.Signals().IsProperSupersetOf(mask)
+                                where signal.Length == 5 && signal.Signals().IsProperSupersetOf(mask)
                                 select signal).First();
 
             WriteToDictionary(threeDisplay.Signals(), mask, 'd', ref codeToActual, ref actualToCode);
@@ -131,14 +130,14 @@ namespace Aoc2021.Day8 {
             ////////////////////////////////
             // Extract bottom-left value (e)
             var eightDisplay = (from signal in display.Signals
-                                where signal.Count() == 7
+                                where signal.Length == 7
                                 select signal).First();
 
             WriteToDictionary(eightDisplay.Signals(), nineDisplay.Signals(), 'e', ref codeToActual, ref actualToCode);
 
             /////////////////////////////////
             // Extract bottom-right value (f)
-            mask = new HashSet<char>() { 
+            mask = new HashSet<char>() {
                 actualToCode['a'],
                 actualToCode['g'],
                 actualToCode['d'],
@@ -147,7 +146,7 @@ namespace Aoc2021.Day8 {
             };
 
             var sixDisplay = (from signal in display.Signals
-                              where signal.Count() == 6 && signal.Signals().IsProperSupersetOf(mask)
+                              where signal.Length == 6 && signal.Signals().IsProperSupersetOf(mask)
                               select signal).First();
 
             WriteToDictionary(sixDisplay.Signals(), mask, 'f', ref codeToActual, ref actualToCode);
@@ -159,7 +158,7 @@ namespace Aoc2021.Day8 {
             return codeToActual;
         }
 
-        void DisplayDictionary(in Dictionary<char, char> dictionary) {
+        private static void DisplayDictionary(in Dictionary<char, char> dictionary) {
             Console.WriteLine("Signal -> Key Position");
             foreach (var e in dictionary) {
                 Console.WriteLine($"{e.Key}      -> {e.Value}");
@@ -167,11 +166,12 @@ namespace Aoc2021.Day8 {
             Console.WriteLine();
         }
 
-        void WriteToDictionary(in HashSet<char> source,
-                                in HashSet<char> mask, 
-                                char actualCharacter, 
-                                ref Dictionary<char, char> codeToActual, 
-                                ref Dictionary<char, char> actualToCode) {
+        private static void WriteToDictionary(in HashSet<char> source,
+                                              in HashSet<char> mask,
+                                              char actualCharacter,
+                                              ref Dictionary<char, char> codeToActual,
+                                              ref Dictionary<char, char> actualToCode)
+        {
             var encodedValue = source.Except(mask).First();
             codeToActual.Add(encodedValue, actualCharacter);
             actualToCode.Add(actualCharacter, encodedValue);

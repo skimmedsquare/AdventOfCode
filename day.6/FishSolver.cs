@@ -1,13 +1,13 @@
 namespace Aoc2021.Day6 {
-    class FishSolver : ISolver
+    public class FishSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
         {
-            var days = 80;
+            const int days = 80;
             var fishes = Parse(data);
             for (var i = 0; i < days; i++) {
                 var numToAdd = 0;
-                for (int j = 0; j < fishes.Count(); j++) {
+                for (int j = 0; j < fishes.Count; j++) {
                     if (fishes[j] == 0) {
                         numToAdd++;
                         fishes[j] = 6;
@@ -21,17 +21,17 @@ namespace Aoc2021.Day6 {
                 //Console.WriteLine($"After {i + 1} day(s): {string.Join(',', fishes)}");
             }
 
-            Console.WriteLine(fishes.Count());
+            Console.WriteLine(fishes.Count);
         }
 
-        List<int> Parse(in List<string> data) {
+        private static List<int> Parse(in List<string> data) {
             return (from num in data[0].Split(',')
                    select int.Parse(num)).ToList();
         }
 
         public void SolvePartTwo(in List<string> data)
         {
-            var days = 256;
+            const int days = 256;
             var fishes = Parse(data);
 
             var fishLog = new Dictionary<int, long>() {
@@ -46,7 +46,7 @@ namespace Aoc2021.Day6 {
                 {8, 0},
             };
 
-            foreach(var fish in fishes) {
+            foreach(int fish in fishes) {
                 fishLog[fish]++;
             }
 

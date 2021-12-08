@@ -1,34 +1,17 @@
 using System.Text;
 
 namespace Aoc2021.Day3 {
-    class BinarySolver : ISolver
+    public class BinarySolver : ISolver
     {
-        static string[] TEST = {
-            "00100",
-            "11110",
-            "10110",
-            "10111",
-            "10101",
-            "01111",
-            "00111",
-            "11100",
-            "10000",
-            "11001",
-            "00010",
-            "01010"
-        };
-
         public void SolvePartOne(in List<string> data)
         {
-            List<uint> nums = data.Select(bin_string => Convert.ToUInt32(bin_string, 2))
-                .ToList();
-
-            var digits = data[0].Count();
+            List<uint> nums = data.ConvertAll(bin_string => Convert.ToUInt32(bin_string, 2));
+            int digits = data[0].Length;
             var builder = new StringBuilder();
 
             for (var bits = digits; bits > 0; bits--) {
                 var sum = 0L;
-                for (var i = 0; i < nums.Count() ; i++ ) {
+                for (var i = 0; i < nums.Count ; i++ ) {
                     var mask = (1 << bits) - 1;
                     // Console.WriteLine($"Mask     : {Convert.ToString(mask, toBase:2)}");
 
@@ -44,7 +27,7 @@ namespace Aoc2021.Day3 {
 
                 // This only works because an odd # is guaranteed by problem constraints... See below for 
                 // the correct way of not being hit by truncation bugs.
-                if (sum > nums.Count() / 2) {
+                if (sum > nums.Count / 2) {
                     builder.Append(1);
                 } else {
                     builder.Append(0);
@@ -53,7 +36,7 @@ namespace Aoc2021.Day3 {
 
             var gamma_str = builder.ToString();
             Console.WriteLine($"Gamma  : {gamma_str}");
-            
+
             var epsilon_str = new string(builder.ToString().Select(c => c == '1' ? '0' : '1').ToArray());
             Console.WriteLine($"Epislon: {epsilon_str}");
 
@@ -63,31 +46,26 @@ namespace Aoc2021.Day3 {
             Console.WriteLine(gamma * epsilon);
         }
 
-        static List<String> ReadFile()
-        {
-            return System.IO.File.ReadLines("day.three/data.txt").ToList();
-        }
-
         public void SolvePartTwo(in List<string> data)
         {
-            List<uint> nums = data.Select(bin_string => Convert.ToUInt32(bin_string, 2))
-                .ToList();
+            List<uint> nums = data.ConvertAll(bin_string => Convert.ToUInt32(bin_string, 2))
+;
 
-            Console.WriteLine(FindRating(data[0].Count(), nums, true) * FindRating(data[0].Count(), nums, false));
+            Console.WriteLine(FindRating(data[0].Length, nums, true) * FindRating(data[0].Length, nums, false));
         }
 
-        uint FindRating(int digits, in List<uint> nums, bool useMajority) {
+        private static uint FindRating(int digits, in List<uint> nums, bool useMajority) {
             var possibleVals = nums;
             for (var bits = digits; bits > 0; bits--) {
                 var numOnes = 0L;
                 var ones = new List<uint>();
                 var zeroes = new List<uint>();
 
-                if (possibleVals.Count() == 1) {
+                if (possibleVals.Count == 1) {
                     break;
                 }
 
-                for (var i = 0; i < possibleVals.Count() ; i++ ) {
+                for (var i = 0; i < possibleVals.Count; i++ ) {
                     var mask = (1 << bits) - 1;
                     // Console.WriteLine($"Mask     : {Convert.ToString(mask, toBase:2)}");
 
@@ -107,7 +85,7 @@ namespace Aoc2021.Day3 {
                     numOnes += digit;
                 }
 
-                var numZeroes = possibleVals.Count() - numOnes;
+                var numZeroes = possibleVals.Count - numOnes;
 
                 if (numOnes > numZeroes) {
                     if (useMajority) {

@@ -3,9 +3,9 @@ using System.CommandLine.Invocation;
 
 namespace Aoc2021
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var rootCommand = new RootCommand
             {
@@ -20,30 +20,30 @@ namespace Aoc2021
             };
 
             rootCommand.Description = "Advent of Code Runner";
-            rootCommand.Handler = CommandHandler.Create<string, bool>(execute);
+            rootCommand.Handler = CommandHandler.Create<string, bool>(Execute);
             rootCommand.Invoke(args);
         }
 
-        static void GetSolvers(out Dictionary<int, ISolver> solvers) {
+        private static void GetSolvers(out Dictionary<int, ISolver> solvers) {
             solvers = new Dictionary<int, ISolver>();
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).Where(x => typeof(ISolver).IsAssignableFrom(x) && !x.IsInterface).ToList();
             foreach (var type in types) {
                 var ctor = type.GetConstructor(System.Type.EmptyTypes);
-                var lastChar = type.Namespace![type.Namespace.Count()-1];
+                var lastChar = type.Namespace![^1];
                 var day = int.Parse(lastChar.ToString());
                 solvers[day] = (ISolver)ctor!.Invoke(null);
             }
         }
 
-        static List<string> ReadFile(int day, bool useRealInput) {
+        private static List<string> ReadFile(int day, bool useRealInput) {
             var path = $"day.{day}/{(useRealInput ? "input" : "example")}.txt";
             Console.WriteLine($"Using file at: {path}");
             return File.ReadLines(path).ToList();
         }
 
-        static void execute(string selection, bool useRealInput) {
+        private static void Execute(string selection, bool useRealInput) {
             var splitChoice = selection.Split('.');
-            
+
             var day = int.Parse(splitChoice[0]);
             var part = int.Parse(splitChoice[1]);
 
@@ -52,8 +52,8 @@ namespace Aoc2021
             var solvers = new Dictionary<int, ISolver>();
             GetSolvers(out solvers);
 
-            ISolver? solver;
-            if (!solvers.TryGetValue(day, out solver) || !(part == 1 || part == 2)) {
+            if (!solvers.TryGetValue(day, out ISolver? solver) || !(part == 1 || part == 2))
+            {
                 Console.WriteLine("Invalid day provided!");
                 return;
             }
@@ -79,7 +79,7 @@ namespace Aoc2021
 
     public delegate void Solve(in List<string> data);
 
-    interface ISolver {
+    public interface ISolver {
         void SolvePartOne(in List<string> data);
         void SolvePartTwo(in List<string> data);
     }

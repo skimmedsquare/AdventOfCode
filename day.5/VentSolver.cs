@@ -1,19 +1,17 @@
 namespace Aoc2021.Day5 {
-    class VentSolver : ISolver
+    public class VentSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
         {
-            var straightLines = Parse(data).Where(l => l.IsStraight()).ToList();
-            var x = 0;
-            var y = 0;
+            List<Line> straightLines = Parse(data).Where(l => l.IsStraight()).ToList();
 
-            FindBounds(straightLines, out x, out y);
-            Console.WriteLine($"X: {x}, Y: {y}");
+            Point max = FindBounds(straightLines);
+            Console.WriteLine($"X: {max.X}, Y: {max.Y}");
 
-            var grid = new int[x+1, y+1];
-            foreach (var line in straightLines) {
-                foreach (var point in line.Points()) {
-                    grid[point.X, point.Y] += 1;
+            var grid = new int[max.X+1, max.Y+1];
+            foreach (Line line in straightLines) {
+                foreach (Point point in line.Points()) {
+                    grid[point.X, point.Y]++;
                 }
             }
 
@@ -21,8 +19,8 @@ namespace Aoc2021.Day5 {
             // PrintGrid(grid);
 
             var count = 0;
-            for (int i = 0; i < x + 1; i++) {
-                for (int j = 0; j < y + 1; j++) {
+            for (var i = 0; i < max.X + 1; i++) {
+                for (var j = 0; j < max.Y + 1; j++) {
                     if (grid[i,j] >= 2) {
                         Console.WriteLine($"Found at {i},{j}");
                         count++;
@@ -33,30 +31,31 @@ namespace Aoc2021.Day5 {
             Console.WriteLine(count);
         }
 
-        void FindBounds(in List<Line> lines, out int x, out int y)
+        private static Point FindBounds(in List<Line> lines)
         {
-            x = (from line in lines
-                select Math.Max(line.Start.X, line.End.X)).Max();
-                
-            y = (from line in lines
-                select Math.Max(line.Start.Y, line.End.Y)).Max();
+            return new Point() {
+                X = (from line in lines
+                     select Math.Max(line.Start.X, line.End.X)).Max(),
+                Y = (from line in lines
+                     select Math.Max(line.Start.Y, line.End.Y)).Max()
+            };
         }
 
-        List<Line> Parse(in List<string> data) {
+        private static List<Line> Parse(in List<string> data) {
             var result = new List<Line>();
-            foreach (var line in data) {
+            foreach (string line in data) {
                 var splitLine = line.Split("->");
-                result.Add(new Line() { Start = readPoint(splitLine[0]), End = readPoint(splitLine[1]) });
+                result.Add(new Line() { Start = ReadPoint(splitLine[0]), End = ReadPoint(splitLine[1]) });
             }
             return result;
         }
 
-        Point readPoint(string input) {
-            var splitInput = input.Trim().Split(',');
+        private static Point ReadPoint(string input) {
+            string[] splitInput = input.Trim().Split(',');
             return new Point() { X = int.Parse(splitInput[0]), Y = int.Parse(splitInput[1])};
         }
 
-        void PrintGrid(in int[,] grid) {
+        private static void PrintGrid(in int[,] grid) {
             for (int i = 0; i < grid.GetLength(0); i++)
             {
                 for (int j = 0; j < grid.GetLength(1); j++) {
@@ -67,17 +66,14 @@ namespace Aoc2021.Day5 {
         }
         public void SolvePartTwo(in List<string> data)
         {
-            var inputLines = Parse(data).ToList();
-            var x = 0;
-            var y = 0;
+            List<Line> inputLines = Parse(data).ToList();
+            Point max = FindBounds(inputLines);
+            Console.WriteLine($"X: {max.X}, Y: {max.Y}");
 
-            FindBounds(inputLines, out x, out y);
-            Console.WriteLine($"X: {x}, Y: {y}");
-
-            var grid = new int[x+1, y+1];
-            foreach (var line in inputLines) {
-                foreach (var point in line.Points()) {
-                    grid[point.X, point.Y] += 1;
+            var grid = new int[max.X+1, max.Y+1];
+            foreach (Line line in inputLines) {
+                foreach (Point point in line.Points()) {
+                    grid[point.X, point.Y]++;
                 }
             }
 
@@ -85,8 +81,8 @@ namespace Aoc2021.Day5 {
             // PrintGrid(grid);
 
             var count = 0;
-            for (int i = 0; i < x + 1; i++) {
-                for (int j = 0; j < y + 1; j++) {
+            for (int i = 0; i < max.X + 1; i++) {
+                for (int j = 0; j < max.Y + 1; j++) {
                     if (grid[i,j] >= 2) {
                         Console.WriteLine($"Found at {i},{j}");
                         count++;
@@ -106,48 +102,46 @@ namespace Aoc2021.Day5 {
     public struct Line {
         public Point Start;
         public Point End;
-    }
 
-    public static class ExtensionMethods {
-        public static bool IsStraight (this Line line) {
-            return line.Start.X == line.End.X || line.Start.Y == line.End.Y;
+        public bool IsStraight() {
+            return Start.X == End.X || Start.Y == End.Y;
         }
 
-        public static List<Point> Points(this Line line) {
-            var xDir = line.End.X - line.Start.X;
-            var yDir = line.End.Y - line.Start.Y;
+        public List<Point> Points() {
+            int xDir = End.X - Start.X;
+            int yDir = End.Y - Start.Y;
 
             var ret = new List<Point>();
 
             // Part 1 Simplification
             if (xDir != 0 && yDir == 0) {
-                var inc = xDir < 0 ? -1 : 1;                
-                var curX = line.Start.X;
-                while (curX != line.End.X) {
-                    ret.Add(new Point() {X = curX, Y = line.Start.Y});
+                var inc = xDir < 0 ? -1 : 1;
+                var curX = Start.X;
+                while (curX != End.X) {
+                    ret.Add(new Point() {X = curX, Y = Start.Y});
                     curX += inc;
                 }
-                ret.Add(line.End);
+                ret.Add(End);
             } else if (xDir == 0 && yDir != 0) {
-                var inc = yDir < 0 ? -1 : 1;                
-                var curY = line.Start.Y;
-                while (curY != line.End.Y) {
-                    ret.Add(new Point() {X = line.Start.X, Y = curY});
+                var inc = yDir < 0 ? -1 : 1;
+                var curY = Start.Y;
+                while (curY != End.Y) {
+                    ret.Add(new Point() {X = Start.X, Y = curY});
                     curY += inc;
                 }
-                ret.Add(line.End);
+                ret.Add(End);
             } else {
                 var xInc = xDir < 0 ? -1 : 1;
                 var yInc = yDir < 0 ? -1 : 1;
 
-                var curPoint = new Point() { X = line.Start.X, Y = line.Start.Y };
-                while (!curPoint.Equals(line.End)) {
+                var curPoint = new Point() { X = Start.X, Y = Start.Y };
+                while (!curPoint.Equals(End)) {
                     ret.Add(curPoint);
 
                     curPoint.X += xInc;
                     curPoint.Y += yInc;
                 }
-                ret.Add(line.End);
+                ret.Add(End);
             }
 
             return ret;

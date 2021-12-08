@@ -1,48 +1,47 @@
 namespace Aoc2021.Day7 {
-    class CrabSolver : ISolver
+    public class CrabSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
         {
-            var crabs = Parse(data);
+            List<int> crabs = Parse(data);
             crabs.Sort();
-            Console.WriteLine((from crab in crabs select crab).Sum() / crabs.Count());
-            var median = CalculateMedian(crabs);
+            Console.WriteLine((from crab in crabs select crab).Sum() / crabs.Count);
+            int median = CalculateMedian(crabs);
 
-            var sumOfDistances = (from crab in crabs
+            int sumOfDistances = (from crab in crabs
                                   select Math.Abs(median - crab)).Sum();
 
             Console.WriteLine(sumOfDistances);
         }
 
-        List<int> Parse(in List<string> data) {
+        private static List<int> Parse(in List<string> data) {
             return data[0].Split(',').Select(n => int.Parse(n)).ToList();
         }
 
-        int CalculateMedian(in List<int> values) {
-            if (values.Count() % 2 == 0) {
-                var middle = values.Count() / 2;
+        private static int CalculateMedian(in List<int> values) {
+            if (values.Count % 2 == 0) {
+                int middle = values.Count / 2;
                 return (values[middle] + values[middle-1]) / 2;
             } else {
                 // Truncation means we get the value we want, e.g. ([0,1,2] => idx 1)
-                return values[values.Count() / 2];
+                return values[values.Count / 2];
             }
         }
 
         public void SolvePartTwo(in List<string> data)
         {
-            var crabs = Parse(data);
+            List<int> crabs = Parse(data);
 
             // memoize
-            var max = crabs.Max();
+            int max = crabs.Max();
             var distList = new List<int>(max + 1);
             for (var i = 0; i < max + 1; i++) {
                 distList.Add((i * (i+1)) / 2);
             }
 
             var initialPositions = new Dictionary<int, int>(); // position : count
-            foreach(var crab in crabs) {
-                int val;
-                if (initialPositions.TryGetValue(crab, out val)) {
+            foreach(int crab in crabs) {
+                if (initialPositions.TryGetValue(crab, out _)) {
                     initialPositions[crab]++;
                 } else {
                     initialPositions[crab] = 1;
@@ -52,7 +51,7 @@ namespace Aoc2021.Day7 {
             var fuelCosts = new List<int>(max + 1);
             for (var i = 0; i < max + 1; i++) {
                 var sum = 0;
-                foreach(var entry in initialPositions) {
+                foreach(KeyValuePair<int, int> entry in initialPositions) {
                     var dist = Math.Abs(entry.Key - i);
                     sum += distList[dist] * entry.Value;
                 }

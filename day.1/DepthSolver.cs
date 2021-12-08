@@ -1,5 +1,5 @@
 namespace Aoc2021.Day1 {
-    class DepthSolver : ISolver
+    public class DepthSolver : ISolver
     {
         public void SolvePartOne(in List<string> data)
         {
@@ -8,10 +8,10 @@ namespace Aoc2021.Day1 {
         }
 
         public void SolvePartTwo(in List<string> data)
-        { 
+        {
             List<int> depths = Parse(data);
 
-            List<int> windows = new List<int>(depths.Count - 3);
+            List<int> windows = new(depths.Count - 3);
             var currWindow = 0;
             for (var i = 0; i < depths.Count - 2; i++)
             {
@@ -31,12 +31,12 @@ namespace Aoc2021.Day1 {
             Console.WriteLine($"Solution: {NumIncreasing(windows)}");
         }
 
-        static List<int> Parse(in List<string> data) 
+        private static List<int> Parse(in List<string> data)
         {
             return (from line in data select int.Parse(line)).ToList();
         }
 
-        static int NumIncreasing(in List<int> vals)
+        private static int NumIncreasing(in List<int> vals)
         {
             var count = 0;
             for (var i = 0; i < vals.Count; i++)

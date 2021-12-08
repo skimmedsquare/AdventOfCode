@@ -11,10 +11,12 @@ namespace Aoc2021
             {
                 new Argument<string>(
                     "selection",
-                    getDefaultValue: () => "1.1"),
+                    getDefaultValue: () => "1.1",
+                    description: "The day and part to run, formatted as <day.part> (e.g. 1.1)"),
                 new Option<bool>(
-                    "--use-real-input",
-                    getDefaultValue: () => false)
+                    new string[] {"--use-real-input", "-r"},
+                    getDefaultValue: () => false,
+                    description: "Whether to use the real (read: large) input, or the example input"),
             };
 
             rootCommand.Description = "Advent of Code Runner";

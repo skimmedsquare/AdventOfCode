@@ -2,7 +2,7 @@
 using System.CommandLine.Invocation;
 using System.Reflection;
 
-namespace Aoc2021
+namespace AdventOfCode
 {
     public static class Program
     {

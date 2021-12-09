@@ -1,4 +1,4 @@
-namespace Aoc2021.Day2
+namespace AdventOfCode.Day2
 {
     public class DirectionSolver : ISolver
     {

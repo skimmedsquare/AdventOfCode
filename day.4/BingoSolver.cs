@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Aoc2021.Day4
+namespace AdventOfCode.Day4
 {
     public class BingoSolver : ISolver
     {

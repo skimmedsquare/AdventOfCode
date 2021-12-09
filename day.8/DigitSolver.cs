@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Aoc2021.Day8
+namespace AdventOfCode.Day8
 {
     public class DigitSolver : ISolver
     {

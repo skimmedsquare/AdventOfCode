@@ -32,8 +32,8 @@ namespace AdventOfCode
             foreach (Type type in types)
             {
                 ConstructorInfo? ctor = type.GetConstructor(Type.EmptyTypes);
-                char lastChar = type.Namespace![^1];
-                int day = int.Parse(lastChar.ToString());
+                string numString = type.Namespace!.Split('.')[1].TrimStart("Day".ToCharArray());
+                int day = int.Parse(numString);
                 solvers[day] = (ISolver)ctor!.Invoke(null);
             }
         }

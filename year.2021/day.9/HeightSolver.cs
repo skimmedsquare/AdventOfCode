@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace AdventOfCode.Day9
+namespace AdventOfCode.Year2021.Day9
 {
     public class HeightSolver : ISolver
     {

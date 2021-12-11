@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace AdventOfCode.Day3
+namespace AdventOfCode.Year2021.Day3
 {
     public class BinarySolver : ISolver
     {

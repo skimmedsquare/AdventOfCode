@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day6
+namespace AdventOfCode.Year2021.Day6
 {
     public class FishSolver : ISolver
     {

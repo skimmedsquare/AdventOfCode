@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day1
+namespace AdventOfCode.Year2021.Day1
 {
     public class DepthSolver : ISolver
     {

@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day10
+namespace AdventOfCode.Year2021.Day10
 {
     public class SyntaxSolver : ISolver
     {
@@ -110,7 +110,8 @@ namespace AdventOfCode.Day10
             }
 
             List<char> charsNeeded = new();
-            while (validator.TryPop(out char result)) {
+            while (validator.TryPop(out char result))
+            {
                 charsNeeded.Add(result);
             }
 
@@ -124,7 +125,8 @@ namespace AdventOfCode.Day10
             return IllegalCharToValue[illegalChar];
         }
 
-        public static long AutoCompleteCharsValue(in List<char> autoCompleteChars) {
+        public static long AutoCompleteCharsValue(in List<char> autoCompleteChars)
+        {
             long sum = 0;
             foreach (char c in autoCompleteChars)
             {

@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day7
+namespace AdventOfCode.Year2021.Day7
 {
     public class CrabSolver : ISolver
     {

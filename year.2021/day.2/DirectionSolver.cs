@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day2
+namespace AdventOfCode.Year2021.Day2
 {
     public class DirectionSolver : ISolver
     {

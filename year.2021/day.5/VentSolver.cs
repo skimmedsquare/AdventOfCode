@@ -1,4 +1,4 @@
-namespace AdventOfCode.Day5
+namespace AdventOfCode.Year2021.Day5
 {
     public class VentSolver : ISolver
     {

@@ -131,11 +131,11 @@ namespace AdventOfCode.Year2021.Day9
                     Node currentPoint = nodes[i, j];
                     if (points.Contains(currentPoint.Position))
                     {
-                        builder.Append($"*{currentPoint.Height}* ");
+                        builder.Append('*').Append(currentPoint.Height).Append("* ");
                     }
                     else
                     {
-                        builder.Append($" {currentPoint.Height}  ");
+                        builder.Append(' ').Append(currentPoint.Height).Append("  ");
                     }
                 }
 

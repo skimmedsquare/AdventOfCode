@@ -189,7 +189,7 @@ namespace AdventOfCode.Year2021.Day11
             Increment();
         }
 
-        public void Reset() 
+        public void Reset()
         {
             HasFlashed = false;
         }

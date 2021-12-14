@@ -48,7 +48,7 @@ namespace AdventOfCode.Year2021.Day12
         }
     }
 
-    internal class Node 
+    internal class Node
     {
         public string Name { get; }
         public VisitType Type { get; }
@@ -68,7 +68,7 @@ namespace AdventOfCode.Year2021.Day12
             neighbors.Add(node);
         }
 
-        public List<string>? FindAllPaths(HashSet<string> seenNodes) 
+        public List<string>? FindAllPaths(HashSet<string> seenNodes)
         {
             // Base case, at end node - finish recursion
             if (Name == "end")
@@ -100,17 +100,16 @@ namespace AdventOfCode.Year2021.Day12
                                             from result in resultList
                                             select result).ToList();
 
-            if (nonEmptyResults.Count == 0) 
+            if (nonEmptyResults.Count == 0)
             {
                 return null;
             }
 
             return (from result in nonEmptyResults
                     select Name + ',' + result).ToList();
-
         }
 
-        public List<string>? FindAllPathsPartTwo(HashSet<string> seenNodes, bool hasVisitedCaveTwice, int depth) 
+        public List<string>? FindAllPathsPartTwo(HashSet<string> seenNodes, bool hasVisitedCaveTwice, int depth)
         {
             // Base case, at end node - finish recursion
             if (Name == "end")
@@ -149,14 +148,13 @@ namespace AdventOfCode.Year2021.Day12
                                             from result in resultList
                                             select result).ToList();
 
-            if (nonEmptyResults.Count == 0) 
+            if (nonEmptyResults.Count == 0)
             {
                 return null;
             }
 
             return (from result in nonEmptyResults
                     select Name + ',' + result).ToList();
-
         }
     }
 

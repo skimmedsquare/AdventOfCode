@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day2
 {
     public class DirectionSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             var depth = 0;
             var pos = 0;
@@ -29,7 +29,7 @@ namespace AdventOfCode.Year2021.Day2
             Console.WriteLine($"Solution: {depth * pos}");
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             var depth = 0;
             var pos = 0;

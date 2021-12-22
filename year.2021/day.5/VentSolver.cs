@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day5
 {
     public class VentSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             List<Line> straightLines = Parse(data).Where(l => l.IsStraight()).ToList();
 
@@ -36,7 +36,7 @@ namespace AdventOfCode.Year2021.Day5
             Console.WriteLine(count);
         }
 
-        private static Point FindBounds(in List<Line> lines)
+        private static Point FindBounds(List<Line> lines)
         {
             return new Point()
             {
@@ -47,7 +47,7 @@ namespace AdventOfCode.Year2021.Day5
             };
         }
 
-        private static List<Line> Parse(in List<string> data)
+        private static List<Line> Parse(List<string> data)
         {
             var result = new List<Line>();
             foreach (string line in data)
@@ -65,7 +65,7 @@ namespace AdventOfCode.Year2021.Day5
             return new Point() { X = int.Parse(splitInput[0]), Y = int.Parse(splitInput[1]) };
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<Line> inputLines = Parse(data).ToList();
             Point max = FindBounds(inputLines);

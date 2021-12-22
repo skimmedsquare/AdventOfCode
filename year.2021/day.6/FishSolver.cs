@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day6
 {
     public class FishSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             const int days = 80;
             List<int> fishes = Parse(data);
@@ -33,13 +33,13 @@ namespace AdventOfCode.Year2021.Day6
             Console.WriteLine(fishes.Count);
         }
 
-        private static List<int> Parse(in List<string> data)
+        private static List<int> Parse(List<string> data)
         {
             return (from num in data[0].Split(',')
                     select int.Parse(num)).ToList();
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             const int days = 256;
             List<int> fishes = Parse(data);

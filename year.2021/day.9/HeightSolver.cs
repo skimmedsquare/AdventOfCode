@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2021.Day9
 {
     public class HeightSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Node[,] nodes = Parse(data);
             var lowPoints = new List<Node>();
@@ -22,7 +22,7 @@ namespace AdventOfCode.Year2021.Day9
             Console.WriteLine(FilledMap(nodes, lowPoints));
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             Node[,] nodes = Parse(data);
             var lowPoints = new List<Node>();
@@ -54,13 +54,13 @@ namespace AdventOfCode.Year2021.Day9
             Console.WriteLine($"Solution: {sizes[0] * sizes[1] * sizes[2]}");
         }
 
-        private static Node[,] Parse(in List<string> data)
+        private static Node[,] Parse(List<string> data)
         {
             Node[,] nodes = PopulateNodes(data);
             return LinkNodes(nodes);
         }
 
-        private static Node[,] PopulateNodes(in List<string> data)
+        private static Node[,] PopulateNodes(List<string> data)
         {
             int x = data.Count;
             int y = data[0].Length;
@@ -83,7 +83,7 @@ namespace AdventOfCode.Year2021.Day9
             return ret;
         }
 
-        private static Node[,] LinkNodes(in Node[,] nodes)
+        private static Node[,] LinkNodes(Node[,] nodes)
         {
             int maxX = nodes.GetLength(0);
             int maxY = nodes.GetLength(1);
@@ -118,7 +118,7 @@ namespace AdventOfCode.Year2021.Day9
             return nodes;
         }
 
-        private static string FilledMap(in Node[,] nodes, in List<Node> lowPoints)
+        private static string FilledMap(Node[,] nodes, List<Node> lowPoints)
         {
             HashSet<string> points = (from point in lowPoints
                                       select point.Position).ToHashSet();

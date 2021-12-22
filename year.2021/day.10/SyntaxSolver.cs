@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day10
 {
     public class SyntaxSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             List<Line> lines = Parse(data);
             List<char> illegalChars = (from line in lines
@@ -16,7 +16,7 @@ namespace AdventOfCode.Year2021.Day10
             Console.WriteLine(solution);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<Line> lines = Parse(data);
             List<Line> incompleteLines = (from line in lines
@@ -125,7 +125,7 @@ namespace AdventOfCode.Year2021.Day10
             return IllegalCharToValue[illegalChar];
         }
 
-        public static long AutoCompleteCharsValue(in List<char> autoCompleteChars)
+        public static long AutoCompleteCharsValue(List<char> autoCompleteChars)
         {
             long sum = 0;
             foreach (char c in autoCompleteChars)

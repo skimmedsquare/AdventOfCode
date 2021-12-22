@@ -5,18 +5,19 @@ namespace AdventOfCode.Year2021.Day13
 {
     public class FoldSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Parse(data, out List<Point> initialPoints, out List<Instruction> instructions);
             Point bounds = FindMaxBounds(initialPoints);
             BitArray[] paper = FillArray(initialPoints, bounds);
             PrintPaper(paper);
+            PrintPaperWithLine(paper, instructions[0]);
             FoldPaper(ref paper, instructions, 1);
 
             Console.WriteLine(paper.Sum(array => array.NumTrue()));
         }
 
-        private static void FoldPaper(ref BitArray[] paper, in List<Instruction> instructions, int numInstructions = -1)
+        private static void FoldPaper(ref BitArray[] paper, List<Instruction> instructions, int numInstructions = -1)
         {
             var instructionCount = 0;
             foreach (Instruction instruction in instructions)
@@ -100,7 +101,7 @@ namespace AdventOfCode.Year2021.Day13
             Console.WriteLine(builder);
         }
 
-        private static void PrintPaper(in BitArray[] paper)
+        private static void PrintPaper(BitArray[] paper)
         {
             var builder = new StringBuilder();
             foreach (BitArray array in paper)
@@ -116,7 +117,7 @@ namespace AdventOfCode.Year2021.Day13
             Console.WriteLine(builder);
         }
 
-        private static BitArray[] FillArray(in List<Point> initialPoints, Point maxBounds)
+        private static BitArray[] FillArray(List<Point> initialPoints, Point maxBounds)
         {
             BitArray[] paper = new BitArray[maxBounds.Y + 1];
             for (int i = 0; i < maxBounds.Y + 1; i++)
@@ -132,7 +133,7 @@ namespace AdventOfCode.Year2021.Day13
             return paper;
         }
 
-        private static void Parse(in List<string> data, out List<Point> initialPoints, out List<Instruction> instructions)
+        private static void Parse(List<string> data, out List<Point> initialPoints, out List<Instruction> instructions)
         {
             initialPoints = new List<Point>();
             instructions = new List<Instruction>();
@@ -161,14 +162,14 @@ namespace AdventOfCode.Year2021.Day13
             }
         }
 
-        private static Point FindMaxBounds(in List<Point> points)
+        private static Point FindMaxBounds(List<Point> points)
         {
             int maxX = points.MaxBy(p => p.X)!.X;
             int maxY = points.MaxBy(p => p.Y)!.Y;
             return new Point(maxX, maxY);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             Parse(data, out List<Point> initialPoints, out List<Instruction> instructions);
             Point bounds = FindMaxBounds(initialPoints);

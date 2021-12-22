@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day7
 {
     public class CrabSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             List<int> crabs = Parse(data);
             crabs.Sort();
@@ -15,12 +15,12 @@ namespace AdventOfCode.Year2021.Day7
             Console.WriteLine(sumOfDistances);
         }
 
-        private static List<int> Parse(in List<string> data)
+        private static List<int> Parse(List<string> data)
         {
             return data[0].Split(',').Select(n => int.Parse(n)).ToList();
         }
 
-        private static int CalculateMedian(in List<int> values)
+        private static int CalculateMedian(List<int> values)
         {
             if (values.Count % 2 == 0)
             {
@@ -32,7 +32,7 @@ namespace AdventOfCode.Year2021.Day7
             return values[values.Count / 2];
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<int> crabs = Parse(data);
 

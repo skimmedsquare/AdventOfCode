@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2021.Day3
 {
     public class BinarySolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             List<uint> nums = data.ConvertAll(bin_string => Convert.ToUInt32(bin_string, 2));
             int digits = data[0].Length;
@@ -52,14 +52,14 @@ namespace AdventOfCode.Year2021.Day3
             Console.WriteLine(gamma * epsilon);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<uint> nums = data.ConvertAll(bin_string => Convert.ToUInt32(bin_string, 2));
 
             Console.WriteLine(FindRating(data[0].Length, nums, true) * FindRating(data[0].Length, nums, false));
         }
 
-        private static uint FindRating(int digits, in List<uint> nums, bool useMajority)
+        private static uint FindRating(int digits, List<uint> nums, bool useMajority)
         {
             List<uint> possibleVals = nums;
             for (var bits = digits; bits > 0; bits--)

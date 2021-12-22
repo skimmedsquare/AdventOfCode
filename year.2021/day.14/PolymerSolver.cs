@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2021.Day14
     {
         private const int PartTwoDepth = 40;
 
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Parse(data, out LinkedList<Pair> chain, out Dictionary<Pair, char> mapping);
             Solve(chain, mapping, 10);
@@ -75,7 +75,7 @@ namespace AdventOfCode.Year2021.Day14
             Console.WriteLine(values[^1] - values[0]);
         }
 
-        private static void Parse(in List<string> data, out LinkedList<Pair> chain, out Dictionary<Pair, char> mapping)
+        private static void Parse(List<string> data, out LinkedList<Pair> chain, out Dictionary<Pair, char> mapping)
         {
             chain = new LinkedList<Pair>();
             mapping = new Dictionary<Pair, char>();
@@ -95,7 +95,7 @@ namespace AdventOfCode.Year2021.Day14
             }
         }
 
-        private static void ParseV2(in List<string> data, out List<Pair> chain, out Dictionary<Pair, ResultPair> mapping)
+        private static void ParseV2(List<string> data, out List<Pair> chain, out Dictionary<Pair, ResultPair> mapping)
         {
             chain = new List<Pair>();
             mapping = new Dictionary<Pair, ResultPair>();
@@ -123,14 +123,14 @@ namespace AdventOfCode.Year2021.Day14
             }
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             ParseV2(data, out List<Pair> chain, out Dictionary<Pair, ResultPair> mapping);
             Dictionary<PairDepthKey, Dictionary<char, ulong>> memoize = new();
             Dictionary<char, ulong> result = new();
             foreach (Pair pair in chain)
             {
-                Dictionary<char, ulong> currentResult = SolveV2(pair, mapping, ref memoize, 0);
+                Dictionary<char, ulong> currentResult = SolveV2(pair, mapping, 0, ref memoize);
                 result = Merge(result, currentResult);
             }
 
@@ -148,7 +148,7 @@ namespace AdventOfCode.Year2021.Day14
             Console.WriteLine(values[^1] - values[0]);
         }
 
-        private static Dictionary<char, ulong> SolveV2(Pair pair, in Dictionary<Pair, ResultPair> mapping, ref Dictionary<PairDepthKey, Dictionary<char, ulong>> memoize, int depth)
+        private static Dictionary<char, ulong> SolveV2(Pair pair, Dictionary<Pair, ResultPair> mapping, int depth, ref Dictionary<PairDepthKey, Dictionary<char, ulong>> memoize)
         {
             if (depth == PartTwoDepth)
             {
@@ -160,15 +160,15 @@ namespace AdventOfCode.Year2021.Day14
                 return new Dictionary<char, ulong>();
             }
 
-            Dictionary<char, ulong> resultL = FetchOrCalculate(resultPair.L, mapping, ref memoize, depth);
-            Dictionary<char, ulong> resultR = FetchOrCalculate(resultPair.R, mapping, ref memoize, depth);
+            Dictionary<char, ulong> resultL = FetchOrCalculate(resultPair.L, mapping, depth, ref memoize);
+            Dictionary<char, ulong> resultR = FetchOrCalculate(resultPair.R, mapping, depth, ref memoize);
 
             Dictionary<char, ulong> result = Merge(resultL, resultR);
 
             return result;
         }
 
-        private static Dictionary<char, ulong> FetchOrCalculate(Pair pair, in Dictionary<Pair, ResultPair> mapping, ref Dictionary<PairDepthKey, Dictionary<char, ulong>> memoize, int depth)
+        private static Dictionary<char, ulong> FetchOrCalculate(Pair pair, in Dictionary<Pair, ResultPair> mapping, int depth, ref Dictionary<PairDepthKey, Dictionary<char, ulong>> memoize)
         {
             Dictionary<char, ulong> result;
             PairDepthKey leftKey = new PairDepthKey() { Pair = pair, Depth = depth + 1 };
@@ -178,14 +178,14 @@ namespace AdventOfCode.Year2021.Day14
             }
             else
             {
-                result = SolveV2(pair, mapping, ref memoize, depth + 1);
+                result = SolveV2(pair, mapping, depth + 1, ref memoize);
                 memoize[leftKey] = result;
             }
 
             return result;
         }
 
-        private static Dictionary<char, ulong> Merge(in Dictionary<char, ulong> dictOne, in Dictionary<char, ulong> dictTwo)
+        private static Dictionary<char, ulong> Merge(Dictionary<char, ulong> dictOne, Dictionary<char, ulong> dictTwo)
         {
             Dictionary<char, ulong> result = new(dictOne);
             foreach (KeyValuePair<char, ulong> entry in dictTwo)
@@ -201,14 +201,6 @@ namespace AdventOfCode.Year2021.Day14
             }
 
             return result;
-        }
-
-        private static void PrintResultDict(Dictionary<char, ulong> resultDict)
-        {
-            foreach (KeyValuePair<char, ulong> entry in resultDict)
-            {
-                Console.WriteLine($"{entry.Key}, {entry.Value}");
-            }
         }
     }
 

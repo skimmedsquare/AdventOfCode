@@ -18,7 +18,7 @@ namespace AdventOfCode.Year2021.Day11
 
         private const int Iterations = 195;
 
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Octopus[,] octopi = Parse(data);
             var counter = new Counter();
@@ -53,7 +53,7 @@ namespace AdventOfCode.Year2021.Day11
             Console.WriteLine(counter.Count);
         }
 
-        private static void Link(in Octopus[,] octopi, int x, int y)
+        private static void Link(Octopus[,] octopi, int x, int y)
         {
             foreach (PointOffset offset in Offsets)
             {
@@ -67,7 +67,7 @@ namespace AdventOfCode.Year2021.Day11
             }
         }
 
-        private static void PrintOctopi(in Octopus[,] octopi)
+        private static void PrintOctopi(Octopus[,] octopi)
         {
             var builder = new StringBuilder();
             for (int i = 0; i < octopi.GetLength(0); i++)
@@ -83,7 +83,7 @@ namespace AdventOfCode.Year2021.Day11
             Console.WriteLine(builder);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             Octopus[,] octopi = Parse(data);
             var counter = new Counter();
@@ -127,7 +127,7 @@ namespace AdventOfCode.Year2021.Day11
             Console.WriteLine($"Steps needed: {steps}");
         }
 
-        private static Octopus[,] Parse(in List<string> data)
+        private static Octopus[,] Parse(List<string> data)
         {
             var result = new Octopus[data.Count, data.Count];
 

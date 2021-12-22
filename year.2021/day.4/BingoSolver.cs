@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2021.Day4
 {
     public class BingoSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             ReadFile(data, out var numbers, out var cards);
 
@@ -12,14 +12,14 @@ namespace AdventOfCode.Year2021.Day4
             Console.WriteLine($"Solution: {winner.UnmarkedSum() * winningNumber}");
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             ReadFile(data, out var numbers, out var cards);
             BingoCard loser = FindLoser(numbers, cards, out var winningNumber);
             Console.WriteLine($"Solution: {loser.UnmarkedSum() * winningNumber}");
         }
 
-        private static BingoCard FindWinner(in List<int> numbers, in List<BingoCard> cards, out int winningNumber)
+        private static BingoCard FindWinner(List<int> numbers, List<BingoCard> cards, out int winningNumber)
         {
             Console.WriteLine($"Total Numbers: {numbers.Count}, Total Cards: {cards.Count}");
 
@@ -42,7 +42,7 @@ namespace AdventOfCode.Year2021.Day4
             throw new InvalidDataException();
         }
 
-        private static BingoCard FindLoser(in List<int> numbers, in List<BingoCard> cards, out int winningNumber)
+        private static BingoCard FindLoser(List<int> numbers, List<BingoCard> cards, out int winningNumber)
         {
             Console.WriteLine($"Total Numbers: {numbers.Count}, Total Cards: {cards.Count}");
             var cardsCopy = new List<BingoCard>(cards);
@@ -73,7 +73,7 @@ namespace AdventOfCode.Year2021.Day4
             throw new InvalidDataException();
         }
 
-        private static void ReadFile(in List<string> data, out List<int> numbers, out List<BingoCard> cards)
+        private static void ReadFile(List<string> data, out List<int> numbers, out List<BingoCard> cards)
         {
             string[] lines = data.ToArray();
             numbers = lines[0].Split(',').Select(v => int.Parse(v)).ToList();

@@ -2,13 +2,13 @@ namespace AdventOfCode.Year2021.Day1
 {
     public class DepthSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             List<int> depths = Parse(data);
             Console.WriteLine($"Solution: {NumIncreasing(depths)}");
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<int> depths = Parse(data);
 
@@ -32,12 +32,12 @@ namespace AdventOfCode.Year2021.Day1
             Console.WriteLine($"Solution: {NumIncreasing(windows)}");
         }
 
-        private static List<int> Parse(in List<string> data)
+        private static List<int> Parse(List<string> data)
         {
             return (from line in data select int.Parse(line)).ToList();
         }
 
-        private static int NumIncreasing(in List<int> vals)
+        private static int NumIncreasing(List<int> vals)
         {
             var count = 0;
             for (var i = 0; i < vals.Count; i++)

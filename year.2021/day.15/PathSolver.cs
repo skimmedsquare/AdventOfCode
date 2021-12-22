@@ -22,7 +22,7 @@ namespace AdventOfCode.Year2021.Day15
             { 4, 5, 6, 7, 8 }
         };
 
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Node[,] nodes = Parse(data);
             LinkNodes(nodes);
@@ -41,7 +41,7 @@ namespace AdventOfCode.Year2021.Day15
             PrintNodes(nodes, path);
         }
 
-        private static Node[,] Parse(in List<string> data)
+        private static Node[,] Parse(List<string> data)
         {
             var result = new Node[data.Count, data.Count];
 
@@ -156,7 +156,7 @@ namespace AdventOfCode.Year2021.Day15
             }
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             Node[,] nodes = Parse(data);
             Node[,] expandedNodes = ExpandGrid(nodes);
@@ -165,7 +165,7 @@ namespace AdventOfCode.Year2021.Day15
             Console.WriteLine(expandedNodes[expandedNodes.GetLength(0) - 1, expandedNodes.GetLength(1) - 1].DistanceFromStart);
         }
 
-        private static Node[,] ExpandGrid(in Node[,] nodes)
+        private static Node[,] ExpandGrid(Node[,] nodes)
         {
             Node[,] result = new Node[nodes.GetLength(0) * AdditionalRisk.GetLength(0), nodes.GetLength(1) * AdditionalRisk.GetLength(1)];
             for (var offsetY = 0; offsetY < AdditionalRisk.GetLength(0); offsetY++)

@@ -18,7 +18,7 @@ namespace AdventOfCode.Year2021.Day8
             { "abcdfg", 9 }
         };
 
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             var validLengths = new HashSet<int>() { 2, 3, 4, 7 };
 
@@ -30,7 +30,7 @@ namespace AdventOfCode.Year2021.Day8
             Console.WriteLine(validNums);
         }
 
-        private static List<Display> Parse(in List<string> data)
+        private static List<Display> Parse(List<string> data)
         {
             var output = new List<Display>();
             foreach (string line in data)
@@ -51,7 +51,7 @@ namespace AdventOfCode.Year2021.Day8
             return output;
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             List<Display> displays = Parse(data);
             var sum = 0;
@@ -66,7 +66,7 @@ namespace AdventOfCode.Year2021.Day8
             Console.WriteLine(sum);
         }
 
-        private static int DecodeOutput(in Dictionary<char, char> mapping, OutputValue value)
+        private static int DecodeOutput(Dictionary<char, char> mapping, OutputValue value)
         {
             var builder = new StringBuilder();
             foreach (string digit in value.Digits)
@@ -77,7 +77,7 @@ namespace AdventOfCode.Year2021.Day8
             return int.Parse(builder.ToString());
         }
 
-        private static int DecodeOutput(in Dictionary<char, char> mapping, string value)
+        private static int DecodeOutput(Dictionary<char, char> mapping, string value)
         {
             var builder = new StringBuilder();
             foreach (char c in value)

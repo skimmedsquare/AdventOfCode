@@ -2,7 +2,7 @@ namespace AdventOfCode.Year2021.Day12
 {
     public class CaveSolver : ISolver
     {
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             Dictionary<string, Node> nodes = Parse(data);
             Node start = nodes["start"];
@@ -12,7 +12,7 @@ namespace AdventOfCode.Year2021.Day12
             Console.WriteLine(paths!.Count);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             Dictionary<string, Node> nodes = Parse(data);
             Node start = nodes["start"];
@@ -22,7 +22,7 @@ namespace AdventOfCode.Year2021.Day12
             Console.WriteLine(paths!.Count);
         }
 
-        private static Dictionary<string, Node> Parse(in List<string> data)
+        private static Dictionary<string, Node> Parse(List<string> data)
         {
             Dictionary<string, Node> nodes = new();
             foreach (string line in data)

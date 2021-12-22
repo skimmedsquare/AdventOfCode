@@ -26,7 +26,7 @@ namespace AdventOfCode.Year2021.Day16
         }.ToImmutableDictionary();
         private const int HeaderSize = 6;
 
-        public void SolvePartOne(in List<string> data)
+        public void SolvePartOne(List<string> data)
         {
             char[] bitString = Parse(data).ToCharArray();
             Packet rootPacket = DecodePacket(bitString, out _);
@@ -133,13 +133,13 @@ namespace AdventOfCode.Year2021.Day16
             return (version, type);
         }
 
-        public static string Parse(in List<string> data)
+        public static string Parse(List<string> data)
         {
             return string.Concat(from character in data[0]
                                  select HexMapping[character]);
         }
 
-        public void SolvePartTwo(in List<string> data)
+        public void SolvePartTwo(List<string> data)
         {
             char[] bitString = Parse(data).ToCharArray();
             Packet rootPacket = DecodePacket(bitString, out _);

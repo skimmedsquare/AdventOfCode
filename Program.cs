@@ -84,7 +84,7 @@ namespace AdventOfCode
         }
     }
 
-    public delegate void Solve(in List<string> data);
+    public delegate void Solve(List<string> data);
 
     public struct SolverKey
     {
@@ -100,7 +100,7 @@ namespace AdventOfCode
 
     public interface ISolver
     {
-        void SolvePartOne(in List<string> data);
-        void SolvePartTwo(in List<string> data);
+        void SolvePartOne(List<string> data);
+        void SolvePartTwo(List<string> data);
     }
 }
